@@ -4,7 +4,9 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
-const db = require('./loaders/pool');
+
+// importing routers
+const itemsRouter = require('./querys/items');
 
 //setting up the PORT
 const PORT = process.env.PORT || 8080;
@@ -33,31 +35,9 @@ app.get('/', (req, res, next) => {
   res.json({ info: 'E-commerce App by L00vely' })
 });
 
-// Items
-app.get('/items', db.getItems);
-app.post('/items', db.createItem);
-app.get('/items/:id', db.getItemById);
-app.delete('/items/:id', db.deleteItemById);
-app.put('/items/:id', db.updateItem);
-
+app.use('/items', itemsRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}.`)
 });
 
-
-
-// Creates a session
-/*app.use(
-  session({  
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      maxAge: 24 * 60 * 60 * 1000
-    }
-  })
-);*/
-
- 
