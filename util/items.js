@@ -1,15 +1,7 @@
-const { Pool } = require("pg");
-
-const pool = new Pool({
-    user: 'david',
-    host: 'localhost',
-    database: 'api',
-    password: '316310',
-    port: 5432,
-});
+const pool = require('../pool');
 
 const getItems = (req, res, next) => {
-    pool.query('SELECT * FROM item ORDER BY item_id ASC', (error, results) => {
+    pool.query('SELECT * FROM items ORDER BY item_id ASC', (error, results) => {
         if (error) {
           throw error;
         }
@@ -19,7 +11,7 @@ const getItems = (req, res, next) => {
 
 const createItem = (req, res, next) => {
     const { name, price, description } = req.body;
-    pool.query('INSERT INTO item (name, price, description) VALUES ($1, $2, $3) RETURNING *', [ name, price, description ], (error, results) => {
+    pool.query('INSERT INTO items (name, price, description) VALUES ($1, $2, $3) RETURNING *', [ name, price, description ], (error, results) => {
         if (error) {
           throw error;
         }
@@ -29,7 +21,7 @@ const createItem = (req, res, next) => {
 
 const getItemById = (req, res, next) => {
     const { id }= req.params;
-    pool.query('SELECT * FROM item WHERE item_id = $1', [ id ], (error, results) => {
+    pool.query('SELECT * FROM items WHERE item_id = $1', [ id ], (error, results) => {
         if (error) {
           throw error;
         }
@@ -39,7 +31,7 @@ const getItemById = (req, res, next) => {
 
 const deleteItemById = (req, res, next) => {
     const { id }= req.params;
-    pool.query('DELETE FROM item WHERE item_id = $1', [ id ], (error, results) => {
+    pool.query('DELETE FROM items WHERE item_id = $1', [ id ], (error, results) => {
         if (error) {
           throw error;
         }
@@ -50,7 +42,7 @@ const deleteItemById = (req, res, next) => {
 const updateItem= (req, res, next) => {
     const { id }= req.params;
     const { name, price, description } = req.body;
-    pool.query('UPDATE item SET name = $1, price = $2, description = $3 WHERE item_id = $4', [ name, price, description, id ], (error, results) => {
+    pool.query('UPDATE items SET name = $1, price = $2, description = $3 WHERE item_id = $4', [ name, price, description, id ], (error, results) => {
         if (error) {
           throw error;
         }

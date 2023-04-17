@@ -7,6 +7,7 @@ const cors = require('cors');
 
 // importing routers
 const itemsRouter = require('./querys/items');
+const usersRouter =  require('./querys/accounts')
 
 //setting up the PORT
 const PORT = process.env.PORT || 8080;
@@ -36,6 +37,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/items', itemsRouter);
+app.use('/users', usersRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}.`)
