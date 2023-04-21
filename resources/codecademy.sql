@@ -65,6 +65,12 @@ INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
   VALUES ( nextval('plant_plant_id_seq'), 'Uña de señorita', 'Crassulaceae', 'Sempervivum', 'Perennes Crassas', 20, 5);
 
 INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
-  VALUES ( nextval('plant_plant_id_seq'), 'Echeveria Conchita', 'Crassulaceae', 'Sempervivum', 'Perennes Crassas', 20, 5);
+  VALUES ( nextval('plant_plant_id_seq'), 'Echeveria Conchita', 'Crassulaceae', 'Echeveria', 'Elegons', 30, 8);
+ 
+INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
+  VALUES ( nextval('plant_plant_id_seq'), 'Dedos de dios', 'Crassulaceae', 'Sedum', 'Sedum Pachyphyllum', 30, 6);
+ 
+INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
+  VALUES ( nextval('plant_plant_id_seq'), 'Bálsamo azul', 'Asteraceae', 'Senecio', 'Senecio Serpens', 30, 6);
  
 

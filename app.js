@@ -6,8 +6,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 // importing routers
+const plantsRouter = require('./app/plants/plants.route');
 const usersRouter = require('./app/users/users.route');
-
 
 //setting up the PORT
 const PORT = process.env.PORT || 8080;
@@ -36,7 +36,8 @@ app.get('/', (req, res, next) => {
   res.json({ info: 'E-commerce App by L00vely' })
 });
 
-app.use('/items', itemsRouter);
+// Using routers
+app.use('/plants', plantsRouter);
 app.use('/users', usersRouter);
 
 app.listen(PORT, () => {
