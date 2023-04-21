@@ -4,65 +4,67 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO codecademy;
 GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO codecademy;
 
 /*CODECADEMY USER*/
-DROP TABLE IF EXISTS "items" CASCADE;
-DROP TABLE IF EXISTS "orders" CASCADE;
-DROP TABLE IF EXISTS "users" CASCADE;
-DROP TABLE IF EXISTS "orders_items" CASCADE;
-DROP TABLE IF EXISTS "carts" CASCADE;
-DROP TABLE IF EXISTS "carts_items" CASCADE;
+DROP TABLE IF EXISTS "plant" CASCADE;
+DROP TABLE IF EXISTS "order" CASCADE;
+DROP TABLE IF EXISTS "user" CASCADE;
+DROP TABLE IF EXISTS "order_plant" CASCADE;
+DROP TABLE IF EXISTS "cart" CASCADE;
+DROP TABLE IF EXISTS "cart_plant" CASCADE;
 
-CREATE TABLE "users" (
-  "user_id" serial PRIMARY KEY,
-  "name" varchar,
-  "email" varchar,
-  "password" varchar,
-  "phone" integer
+CREATE TABLE "user" (
+  "user_id" SERIAL PRIMARY KEY,
+  "name" VARCHAR(50) NOT NULL,
+  "email"  VARCHAR(50) UNIQUE NOT NULL,
+  "password" VARCHAR(30) NOT NULL,
+  "phone" VARCHAR(20) UNIQUE NOT NULL
 );
 
-CREATE TABLE "orders" (
-  "order_id" serial PRIMARY KEY,
-  "status" varchar,
-  "total" numeric,
-  "user_id" integer
+CREATE TABLE "plant" (
+  "plant_id" SERIAL PRIMARY KEY,
+  "name" VARCHAR(50) UNIQUE NOT NULL,
+  "family" VARCHAR(50) NOT NULL,
+  "gender" VARCHAR(50) NOT NULL,
+  "specie" VARCHAR(50) UNIQUE NOT NULL,
+  "price" NUMERIC CHECK ("price" > 0) NOT NULL,
+  "stock" NUMERIC CHECK ("stock" > 0) NOT NULL
 );
 
-CREATE TABLE "items" (
-  "item_id" serial PRIMARY KEY,
-  "name" varchar,
-  "price" numeric,
-  "description" varchar
+CREATE TABLE "order" (
+  "order_id" SERIAL PRIMARY KEY,
+  "user_id" INTEGER REFERENCES "user"("user_id") NOT NULL,
+  "status" VARCHAR(50) CHECK("status" IN ('pendiente', 'completado', 'cancelado')) NOT NULL
 );
 
-CREATE TABLE "orders_items" (
-  "order_item_id" serial PRIMARY KEY,
-  "order_id" integer,
-  "item_id" integer,
-  "quantity" integer,
-  "price" numeric
+CREATE TABLE "cart" (
+  "cart_id" SERIAL PRIMARY KEY,
+  "user_id" INTEGER REFERENCES "user"("user_id") NOT NULL,
+  "status" VARCHAR(50) CHECK("status" IN ('pendiente', 'completado', 'cancelado')) NOT NULL
 );
 
-CREATE TABLE "carts" (
-  "cart_id" serial PRIMARY KEY,
-  "user_id" integer
+CREATE TABLE "order_plant" (
+  "order_plant_id" SERIAL PRIMARY KEY,
+  "order_id" INTEGER REFERENCES "order"("order_id") NOT NULL,
+  "plant_id" INTEGER REFERENCES "plant"("plant_id") NOT NULL,
+  "quantity"  NUMERIC CHECK ("quantity" > 0) NOT NULL
 );
 
-CREATE TABLE "carts_items" (
-  "cart_item" serial PRIMARY KEY,
-  "item_id" integer,
-  "cart_id" integer
+CREATE TABLE "cart_plant" (
+  "cart_plant_id" SERIAL PRIMARY KEY,
+  "cart_id" INTEGER REFERENCES "cart"("cart_id") NOT NULL,
+  "plant_id" INTEGER REFERENCES "plant"("plant_id") NOT NULL,
+  "quantity"  NUMERIC CHECK ("quantity" > 0) NOT NULL
 );
 
-ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id");
+INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
+  VALUES ( nextval('plant_plant_id_seq'), 'Orejas de Shrek', 'Crassulaceae', 'Crassúla Ovata Gollum', 'Ovata', 30, 5 );
 
-ALTER TABLE "orders_items" ADD FOREIGN KEY ("order_id") REFERENCES "order" ("order_id");
+INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
+  VALUES ( nextval('plant_plant_id_seq'), 'Rosario', 'Senecio', 'Asteraceae', 'Senecio Rowleyanus', 40, 4);
 
-ALTER TABLE "orders_items" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("item_id");
+INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
+  VALUES ( nextval('plant_plant_id_seq'), 'Uña de señorita', 'Crassulaceae', 'Sempervivum', 'Perennes Crassas', 20, 5);
 
-ALTER TABLE "carts" ADD FOREIGN KEY ("user_id") REFERENCES "user" ("user_id");
+INSERT INTO "plant"(plant_id, name, family, gender, specie, price, stock)
+  VALUES ( nextval('plant_plant_id_seq'), 'Echeveria Conchita', 'Crassulaceae', 'Sempervivum', 'Perennes Crassas', 20, 5);
+ 
 
-ALTER TABLE "carts_items" ADD FOREIGN KEY ("item_id") REFERENCES "item" ("item_id");
-
-ALTER TABLE "carts_items" ADD FOREIGN KEY ("cart_id") REFERENCES "cart" ("cart_id");
-
-INSERT INTO "items"
-  VALUES (nextval('items_items_id_seq'),'RAM MEMORY', 2000, 'Awesome');

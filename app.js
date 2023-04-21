@@ -6,8 +6,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 // importing routers
-const itemsRouter = require('./querys/items');
-const usersRouter =  require('./querys/accounts')
+const usersRouter = require('./app/users/users.route');
+
 
 //setting up the PORT
 const PORT = process.env.PORT || 8080;

@@ -1,7 +1,7 @@
 const pool = require('../pool');
 
 const getUsers = (req, res, next) => {
-    pool.query('SELECT * FROM users ORDER BY user_id ASC', (error, results) => {
+    pool.query('SELECT * FROM user ORDER BY user_id ASC', (error, results) => {
         if (error) {
           throw error;
         }
@@ -11,7 +11,7 @@ const getUsers = (req, res, next) => {
 
 const createUser = (req, res, next) => {
     const { name, price, description } = req.body;
-    pool.query('INSERT INTO users (name, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING *', [ name, email, password, phone ], (error, results) => {
+    pool.query('INSERT INTO user (name, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING *', [ name, email, password, phone ], (error, results) => {
         if (error) {
           throw error;
         }
@@ -21,7 +21,7 @@ const createUser = (req, res, next) => {
 
 const getUserById = (req, res, next) => {
     const { id }= req.params;
-    pool.query('SELECT * FROM users WHERE user_id = $1', [ id ], (error, results) => {
+    pool.query('SELECT * FROM user WHERE user_id = $1', [ id ], (error, results) => {
         if (error) {
           throw error;
         }
@@ -31,7 +31,7 @@ const getUserById = (req, res, next) => {
 
 const deleteUserById = (req, res, next) => {
     const { id }= req.params;
-    pool.query('DELETE FROM users WHERE user_id = $1', [ id ], (error, results) => {
+    pool.query('DELETE FROM user WHERE user_id = $1', [ id ], (error, results) => {
         if (error) {
           throw error;
         }
@@ -42,7 +42,7 @@ const deleteUserById = (req, res, next) => {
 const updateUser= (req, res, next) => {
     const { id }= req.params;
     const { name, email, password, phone } = req.body;
-    pool.query('UPDATE users SET name = $1, price = $2, description = $3 WHERE user_id = $4', [ name, email, password, phone, id ], (error, results) => {
+    pool.query('UPDATE user SET name = $1, price = $2, description = $3 WHERE user_id = $4', [ name, email, password, phone, id ], (error, results) => {
         if (error) {
           throw error;
         }
