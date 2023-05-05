@@ -4,10 +4,12 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
+const session = require("express-session")
+require('dotenv').config();
 
 // importing routers
-const plantsRouter = require('./app/plants/plants.route');
-const usersRouter = require('./app/users/users.route');
+const plantsRouter = require('./routes/plants/plants.route');
+const usersRouter = require('./routes/users/users.route');
 
 //setting up the PORT
 const PORT = process.env.PORT || 8080;
