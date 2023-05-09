@@ -8,12 +8,12 @@ const createUser = (name, email, password, phone) => {
     return pool.query('INSERT INTO user (name, email, password, phone) VALUES ($1, $2, $3, $4) RETURNING *', [ name,  email, password, phone ])
 }
 
-const getUserById = id => {
-    return pool.query('SELECT * FROM user WHERE user_id = $1', [ id ]);
+const getUserByEmail = email => {
+    return pool.query('SELECT * FROM user WHERE email = $1', [ email ]);
 }
 
-const deleteUserById = id => {
-    return pool.query('DELETE FROM user WHERE user_id = $1', [ id ]);
+const deleteUserByEmail = email => {
+    return pool.query('DELETE FROM user WHERE email = $1', [ email ]);
 }
 
 const updateUser= (id, name, email, password, phone) => {
@@ -42,23 +42,32 @@ const updatePlant= (id, name, family, gender, specie, price, stock ) => {
 }
 
 const getPlantsBySpecie = specie => {
-    return pool.query('SELECT * FROM plant WHERE specie = $1', [ specie ]);
+    return pool.query('SELECT * FROM plant WHERE LOWER(specie) = LOWER($1)', [ specie ]);
 }
 
-const getPlantsByFamily = family  => {
-    return pool.query('SELECT * FROM plant WHERE family = $1', [ family ])
+const getPlantsByFamily = family => {
+    return pool.query('SELECT * FROM plant WHERE LOWER(family) = LOWER($1)', [ family ]);
 }
 
-const getPlantsByGender = gender => {
-    return pool.query('SELECT * FROM plant WHERE gender = $1', [ gender ])
+const getPlantsByGender= gender => {
+    return pool.query('SELECT * FROM plant WHERE LOWER(gender) = LOWER($1)', [ gender]);
+}
+
+/* ORDERS*/
+const getOrderById = id => {
+    return pool.query('SELECT * FROM order WHERE user_id = $1', [ id ]);
+}
+
+const getOrdersByUser = id => {
+    return pool.query('SELECT * FROM order WHERE order_id = $1', [ id ]);
 }
 
 
 module.exports = {
     getUsers,
-    getUserById,
+    getUserByEmail,
     createUser,
-    deleteUserById,
+    deleteUserByEmail,
     updateUser,
     getPlants,
     getPlantById,

@@ -4,15 +4,18 @@ const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
-const session = require("express-session")
+const session = require("express-session");
+const store = new session.MemoryStore();
+const { getUserByEmail } = require('./model/ecommerce');
+
 require('dotenv').config();
 
 // importing routers
 const plantsRouter = require('./routes/plants/plants.route');
-const usersRouter = require('./routes/users/users.route');
+
 
 //setting up the PORT
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
 //assigning the variable app to express
 const app = express();
@@ -33,14 +36,38 @@ app.use(cookieParser());
 
 app.set('trust proxy', 1);
 
+// Session
+app.use(
+  session({
+    secret: "f4z4gs$Gcg",
+    cookie: { maxAge: 300000000, secure: true, sameSite: "none" },
+    saveUninitialized: false,
+    resave: false,
+    store,
+  })
+);
+
+
 // Home
 app.get('/', (req, res, next) => {
   res.json({ info: 'E-commerce App by L00vely' })
 });
 
+
+// Login
+app.get("/login", (req, res, next) => {
+  res.render("login");
+});
+
+// app.post("/login", (req, res, next) => {
+//   const { email , password } = req.body;
+//   getUserByEmail(email)
+// } )
+
+
 // Using routers
-app.use('/plants', plantsRouter);
-app.use('/users', usersRouter);
+app.use('/api', plantsRouter);
+
 
 app.listen(PORT, () => {
   console.log(`Server running on PORT ${PORT}.`)

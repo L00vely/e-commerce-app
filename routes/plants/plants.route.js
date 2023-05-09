@@ -8,17 +8,17 @@ const { getPlants,
     getPlantsByGender,
     createPlant,
     deletePlantById,
-    updatePlant } = require('../../controller/index.js');
+    updatePlant } = require('../../controller/plantsController');
 
 
-plantsRouter.get('/', getPlants);
-plantsRouter.post('/', createPlant);
-plantsRouter.get('/:id', getPlantById);
-plantsRouter.delete('/:id', deletePlantById);
-plantsRouter.put('/:id', updatePlant);
-plantsRouter.get('/:specie', getPlantsBySpecie);
-plantsRouter.get('/:gender', getPlantsByGender);
-plantsRouter.get('/:family', getPlantsByFamily);
+plantsRouter.get('/plants', getPlants);
+plantsRouter.post('/plants', createPlant);
+plantsRouter.get('/plants/:id', getPlantById);
+plantsRouter.delete('/plants/:id', deletePlantById);
+plantsRouter.put('/plants/:id', updatePlant);
+plantsRouter.get('/plants/species/:specie', getPlantsBySpecie);
+plantsRouter.get('/plants/genders/:gender', getPlantsByGender);
+plantsRouter.get('/plants/families/:family', getPlantsByFamily);
 
 
 module.exports = plantsRouter;
